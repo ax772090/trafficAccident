@@ -1,0 +1,4 @@
+jdbcUrl = jdbc:mysql://127.0.0.1/urumqiaccident?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password =772090
+devMode = true

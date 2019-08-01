@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+ --> 
+<mapper namespace="com.accident.sql.sqlMapper">
+	<!-- 查询事故基本情况信息 -->
+	<select id="getInfoBasic" resultType="java.util.HashMap" parameterType="String">
+		select * from info_basic where AccCode=#{AccCode}
+	</select>
+	<!--添加数据  -->
+	<insert id="insertInfoBasic" parameterType="java.util.HashMap">
+		insert info_basic(QhCode,RoadName,NumRoad,SectionCrossName,AccPlaces,AccCode,HappenTime,StartInvestTime,EndInvestTime,AccLon,AccLat,OneWayRoad,TwoWayRoad,PersonDeath,PersonHarm,VehicleDamage,NoVehicleDamage,EconomicLoss,ClassCode,CauseCode,WeatherCode,FormCode,LocaleCode,LandCode,SurfaceCode,SurClassCode,TransectCode,CrossSecClassCode,LinearCode,LoadClassCode,ContralCode,LightCode,Remarks,WriteUnit,WriteTime,WritePerson,TabVerify)
+           VALUES(#{qhCode},#{roadName},#{numRoad},#{sectionCrossName},#{accPlaces},#{accCode},#{happenTime},#{startInvestTime},#{endInvestTime},#{accLon},#{accLat},#{oneWayRoad},#{twoWayRoad},#{personDeath},#{personHarm},#{vehicleDamage},#{noVehicleDamage},#{economicLoss},#{classCode},#{causeCode},#{weatherCode},#{formCode},#{localeCode},#{landCode},#{surfaceCode},#{surClassCode},#{transectCode},#{crossSecClassCode},#{linearCode},#{loadClassCode},#{contralCode},#{lightCode},#{remarks},#{writeUnit},#{writeTime},#{writePerson},#{tabVerify})
+	</insert>
+	
+</mapper>

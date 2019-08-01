@@ -1,0 +1,409 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>乌鲁木齐交通事故信息网</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/style.css">
+      <!--nprogress-->
+    <link rel="stylesheet" href="css/nprogress.css">
+    <script src="js/nprogress.js"></script>
+    
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+     <!--common-->
+    <script src="js/common.js"></script>
+
+</head>
+<body>
+    <!--导航显示-->
+    <nav class="nav navbar-default navbar-fixed-top">
+        <div class="container logobg">
+                <div class="navbar-header logo" >
+                    <a href="index.html" >
+                        <!--<img src="img/logo.png">-->
+                        <span id="title" >乌鲁木齐交通安全管理平台</span>
+                    </a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse"  id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="index.html" ><span class="glyphicon glyphicon-home"></span> 首页</a> </li>
+                        <li class="active"><a href="addinformation.html"><span class="glyphicon glyphicon-th-list"></span> 数据录入</a> </li>
+                        <li><a href="accquery.html"><span class="glyphicon glyphicon-fire"></span> 事故查询与分析</a> </li>  
+                        <li><a href="networkAnalysis.html"><span class="glyphicon glyphicon-question-sign"></span> 事故路网分析</a> </li>                             
+                    </ul>
+                </div>
+        </div>
+    </nav>
+    <!--数据录入界面-->
+    <div id="add">
+        <div class="container">
+            <form class="form-horizontal">
+                <!--第一组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">行政区划:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="qhCode">
+                           
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">选择道路:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="numRoad">
+                           
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">路口路段：</label>
+                    <div class="col-sm-3">
+	                   <div class="row">
+		                   	<div class="col-sm-4" style="padding-right:0px;">
+		                   		<select class="form-control" id="sectionCross">
+	                                <option value="1">路段</option>
+	                                <option value="0">路口</option>
+		                        </select>
+		                   	</div>
+		                   	<div class="col-sm-8" style="padding-left:0px;">	
+		                   		<select class="form-control" id="sectionCrossName">
+		                                
+		                        </select>
+		                   	</div>
+	                   </div>
+                    </div>
+                   
+                </div>
+                <!--第二组-->
+                <div class="form-group">
+                	<label class="col-sm-1 control-label">事故地点:</label>
+                	<div class=col-sm-3>
+                		 <input id="accPlaces" type="text" list="accPlace_list" class="form-control" placeholder="请输入事故地点" required>
+                		 <datalist id="accPlace_list">
+                		 	<!-- <option value="aa"/>
+                		 	<option value="bb"/> -->
+                		 </datalist>
+                	</div>
+                    <label class="col-sm-1 control-label">经度：</label>
+                    <div class="col-sm-3">
+                    	<div class="input-group">
+                    		<input class="form-control" id="duLon" required>
+                    		<span class="input-group-addon" >度</span>
+                    		<!-- 注释掉的原因是数据变化了 -->
+                    		<!-- <input class="form-control" id="minLon" required>
+                    		<span class="input-group-addon" >分</span>
+                    		<input class="form-control" id="secLon" required>
+                    		<span class="input-group-addon" >秒</span> -->
+                    	</div>
+                        <!-- <input id="accLon" type="text" class="form-control" placeholder="请输入事故发生经度"> -->
+                    </div>
+                    <label class="col-sm-1 control-label">纬度：</label>
+                    <div class="col-sm-3">
+                        <!-- <input id="accLat" type="text" class="form-control" placeholder="请输入事故发生纬度"> -->
+                        <div class="input-group">
+                    		<input class="form-control" id="duLat" required>
+                    		<span class="input-group-addon">度</span>
+                    		<!-- 注释掉的原因是数据变化了 -->
+                    		<!-- <input class="form-control" id="minLat" required>
+                    		<span class="input-group-addon">分</span>
+                    		<input class="form-control" id="secLat" required>
+                    		<span class="input-group-addon">秒</span> -->
+                    	</div>
+                    </div>
+                </div>
+                <!--第三组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >事故发生时间：</label>
+                    <div class="col-sm-3">
+                        <div class='input-group date datepicker' >
+                            <input type='text' class="form-control" id="happenTime" required/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label">开始勘察时间：</label>
+                    <div class="col-sm-3">
+                        <div class="input-group date datepicker" >
+                            <input type="text" class="form-control" id="startInvestTime" required>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+
+                     </div>
+                    <label class="col-sm-1 control-label">结束勘察时间：</label>
+                    <div class="col-sm-3">
+                        <div class="input-group date datepicker">
+                            <input type="text" class="form-control" id="endInvestTime" required>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                 </div>
+                
+                <!--第四组-->
+                <div class="form-group">
+                	<label class="col-sm-1 control-label">事故编号:</label>
+                    <div class="col-sm-3">
+                        <input  id="accCode" type="text" class="form-control" placeholder="请输入事故编号">
+                    </div>
+                    
+                    <label class="col-sm-1 control-label">伤亡人数：</label>
+                    <div class="col-sm-3">
+                        <div>
+                            <div class="input-group">
+                                <span class="input-group-addon">死亡</span>
+                                <input type="number" class="form-control" value="0" id="personDeath" required>
+                                <span class="input-group-addon">人</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group">
+                                <span class="input-group-addon">受伤</span>
+                                <input type="number" class="form-control" value="0" id="personHarm" required>
+                                <span class="input-group-addon">人</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <label class="col-sm-1 control-label">损坏车辆：</label>
+                    <div class="col-sm-3">
+                        <div>
+                            <div class="input-group">
+                                <span class="input-group-addon">机动车&nbsp;&nbsp;&nbsp;</span>
+                                <input type="number" class="form-control" value="1" id="vehicleDamage" required>
+                                <span class="input-group-addon">辆</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group">
+                                <span class="input-group-addon">非机动车</span>
+                                <input type="number" class="form-control" value="1" id="noVehicleDamage" required>
+                                <span class="input-group-addon">辆</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--第五组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">直接经济损失：</label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">￥</span>
+                            <input id="economicLoss" type="text" class="form-control" value="500" placeholder="请输入直接损失" required>
+                            <span class="input-group-addon">.00</span>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label">事故分类：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="classCode">
+                       
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">事故主要原因：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="causeCode">
+                           
+                        </select>
+                    </div>
+                </div>
+                <!--第六组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">天气：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="weatherCode">
+                            
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">事故形态：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="formCode">
+                            
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">现场：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="localeCode">
+                           
+                        </select>
+                    </div>
+                </div>
+                <!--第七组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">地形：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="landCode">
+                            
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">路面情况：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="surfaceCode">
+                           
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">路面类型：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="surClassCode">
+                            
+                        </select>
+                    </div>
+                </div>
+                <!--第八组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">道路横断面：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="transectCode">
+                            
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">路面宽度：</label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <div class="input-group-btn select">
+                                <select class="form-control selectcontrol" id="oneTwoRoad">
+                                    <option>双向</option>
+                                    <option>单向</option>
+                                </select>
+                            </div>
+                            <input type="number" class="form-control" value="20" id="wayRoad" required>
+                            <span class="input-group-addon">米</span>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label">道路线形：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="linearCode">
+                            
+                        </select>
+                    </div>
+                </div>
+                <!--第九组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">道路类型：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="loadClassCode">
+                            
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">交通控制方式：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="contralCode">
+                           
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">照明条件：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="lightCode">
+                           
+                        </select>
+                    </div>
+                </div>
+                <!--第十组-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">备注：</label>
+                    <div class="col-sm-11">
+                        <textarea id="remarks" class="form-control" rows="3" placeholder="请输入事故简要情况">甲车从xxx路开到xxx路时，与乙车相撞。</textarea>
+                    </div>
+                </div>
+                <!--第十一组-->
+                <div class="form-group">
+                    <label class="col-md-1 control-label">填报单位：</label>
+                    <div class="col-md-2">
+                         <input id="writeUnit" type="text" class="form-control" placeholder="请输入填报单位" value="乌鲁木齐交警大队">
+                    </div>
+                    <label class="col-md-1 control-label">填报时间：</label>
+                    <div class="col-md-2">
+                        <div class='input-group date datepicker' >
+                            <input type='text' class="form-control" id="writeTime" required/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <label class="col-md-1 control-label">填报人：</label>
+                    <div class="col-md-2">
+                        <input id="writePerson" type="text" class="form-control" placeholder="请输入填报人姓名" value="阿星">
+                    </div>
+                    <label class="col-md-1 control-label">审核人：</label>
+                    <div class="col-md-2">
+                        <input id="tabVerify" type="text" class="form-control" placeholder="请输入审核人姓名" value="阿星">
+                    </div>
+                </div>
+                <!--第十二组-->
+                <div class="form-group">
+                    <div class="col-sm-12 ">
+                        <div class="container">
+                            <button id="save" type="button" class="btn btn-primary " style="margin-left: 1000px" data-toggle="modal" data-target="#myModal" >保存</button>
+                            <button type="reset" class="btn btn-success" style="float: right">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<!--底部-->
+<div class="footer">
+    <div class="link">
+        <a href="#">网站声明</a>&nbsp;|&nbsp;
+        <a href="#">年轻人不要老熬夜</a>&nbsp;|&nbsp;
+        <a href="#">联系我们：1647824858@qq.com</a>&nbsp;|&nbsp;
+        <p>Copyright 2016，All Rights Reserved.  乌鲁木齐交通事故 版权所有 复制必究</p>
+    </div>
+</div>
+
+<!-- Modal 模态框-->
+<div class="modal fade bs-example-modal-sm " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog modal-sm" role="document" style="margin:300px auto">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加数据</h4>
+      </div>
+      <div class="modal-body">
+        	是否保存当前内容?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveClick();">确定</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="js/addinformation/addinformation.js"></script>
+    <script>
+       /* $(window).load(function(){
+            $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+        });*/
+       $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+       $(window).resize(function(){
+           $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+       });
+//       var now=moment();
+        /*日期时间*/
+        $(".datepicker").datetimepicker({
+            format:'YYYY-MM-DD HH:mm',
+            showTodayButton:true,
+            showClear:true,
+            tooltips:{
+                today:'今天',
+                clear:'清除'
+            }
+        });
+
+    </script>
+</body>
+</html>

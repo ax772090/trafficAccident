@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>乌鲁木齐交通事故信息网</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/style.css">
+      <!--nprogress-->
+    <link rel="stylesheet" href="css/nprogress.css">
+    <script src="js/nprogress.js"></script>
+    
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+     <!--common-->
+    <script src="js/common.js"></script>
+    
+    
+    <!--引用index.js中的内容  -->
+    <!-- <script src="js/index/index.js"></script> -->
+
+    
+    
+</head>
+<body>
+    <!--导航显示-->
+    <nav class="nav navbar-default navbar-fixed-top">
+        <div class="container logobg">
+                <div class="navbar-header logo" >
+                    <a href="index.html" >
+                        <!--<img src="img/logo.png">-->
+                        <span id="title" >乌鲁木齐交通安全管理平台</span>
+                    </a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse"  id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="index.html" ><span class="glyphicon glyphicon-home"></span> 首页</a> </li>
+                        <li ><a href="addinformation.html"><span class="glyphicon glyphicon-th-list"></span> 数据录入</a> </li>
+                        <li><a href="accquery.html"><span class="glyphicon glyphicon-fire"></span> 事故查询与分析</a> </li>  
+                        <li class="active"><a href="networkAnalysis.html"><span class="glyphicon glyphicon-question-sign"></span> 事故路网分析</a> </li>                             
+                    </ul>
+                </div>
+        </div>
+    </nav>   
+    <div id="network" class="panel-body" style="padding-bottom:0px">
+    	<div class="container">
+    		<div class="panel panel-primary">
+    			<div class="panel-heading" style="font-size:150%;">交通事故分析</div>
+    			<div class="panel-body">
+    				<form class="form-horizontal">
+    					<div class="form-group">
+    					
+    						<label class="col-sm-1 control-label">事故年份:</label>
+    						<div class="col-sm-5">
+	    						<div class="col-sm-5">
+	    							<div class='input-group date datepicker' >
+		                            <input type='text' class="form-control" id="startYear" value="2014"/>
+		                            <span class="input-group-addon">
+		                                <span class="glyphicon glyphicon-calendar"></span>
+		                            </span>
+		                            </div>
+		                        </div>
+		                        <label class="col-sm-1 control-label">至</label>
+	    						<div class="col-sm-5">
+	    							<div class='input-group date datepicker' >
+			                            <input type='text' class="form-control" id="endYear" value="2016" />
+			                            <span class="input-group-addon">
+			                                <span class="glyphicon glyphicon-calendar"></span>
+			                            </span>
+			                        </div>
+    							</div>	
+    						</div>
+    						<label class="col-sm-2 control-label">事故道路类型:</label>
+    						<div class="col-sm-2">
+		                        <select class="form-control" id="blackPointRoad" onchange="choiceRoadType();">
+		                            <option>道路事故</option>
+		                            <option>路段事故</option>
+		                            <option>路口事故</option>
+		                            
+		                        </select>
+		                    </div>
+    					</div>
+    				</form>
+    				<div class="table-responsive">
+    					<!-- <div class="pull-right">
+    						<a href="index.html" id="showOnMap" onclick="onMap()" class="btn btn-info">显示到地图</a>
+    					</div> -->
+    					<table class="table table-hover table-bordered" id="blackPointTable">  
+    						<!-- <thead>
+    							<tr>
+    								<th>路段名称</th>
+    							</tr>
+    						</thead>
+    						<tbody>
+    							<tr>
+    								<td>aaa</td>
+    							
+    							</tr>
+    							<tr>
+    								<td>aaa</td>
+    							
+    							</tr>
+    							<tr>
+    								<td>aaa</td>
+    								
+    							</tr>
+    						</tbody> -->
+    					</table>
+    				</div>
+    			</div>
+    		</div>
+    		
+    	</div>
+    </div>
+	<!--底部-->
+	<div class="footer">
+	    <div class="link">
+	        <a href="#">网站声明</a>&nbsp;|&nbsp;
+	        <a href="#">写点东西我喜欢你</a>&nbsp;|&nbsp;
+	        <a href="#">联系我们：1647824858@qq.com</a>&nbsp;|&nbsp;
+	        <p>Copyright 2016，All Rights Reserved.  乌鲁木齐交通事故 版权所有 复制必究</p>
+	    </div>
+	</div>
+	
+	
+	
+	<script type="text/javascript" src="js/networkanalysis/networkanalysis.js"></script>
+	
+	
+    <script>
+       /* $(window).load(function(){
+            $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+        });*/
+       $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+       $(window).resize(function(){
+           $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+       });
+//       var now=moment();
+        /*日期时间*/
+        $(".datepicker").datetimepicker({
+            format:'YYYY',
+            showTodayButton:true,
+            showClear:true,
+            tooltips:{
+                today:'今天',
+                clear:'清除'
+            }
+        });
+
+    </script>
+</body>
+</html>

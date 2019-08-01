@@ -1,0 +1,209 @@
+<!DOCTYPE HTML  PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>乌鲁木齐交通事故信息网</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!--nprogress-->
+    <link rel="stylesheet" href="css/nprogress.css">
+    <script src="js/nprogress.js"></script>
+    
+    
+    
+    <!--部署在Tomcat上-->
+   <link rel="stylesheet" type="text/css" href="http://localhost:8080/jsapi/3.16/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/jsapi/3.16/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost:8080/jsapi/3.16/init.js"></script>
+    
+    <!--这里先用在线的,arcgis在线API-->
+    <!-- <link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.17/"></script> -->
+    
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    
+    <!--高德地图API的key  -->
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=6ffcdef1da6d8e14f52760718b04fb39"></script>
+</head>
+<body>
+	<!--导航显示-->
+	<nav class="nav navbar-default navbar-fixed-top">
+	    <div class="container logobg">
+	        <div class="navbar-header logo" >
+	            <a href="index.html" >
+	                <!--<img src="img/logo.png">-->
+	                <span id="title" >乌鲁木齐交通安全管理平台</span>
+	            </a>
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	        </div>
+	        <div class="collapse navbar-collapse"  id="navbar-collapse">
+	            <ul class="nav navbar-nav navbar-right">
+	                <li class="active"><a href="index.html" ><span class="glyphicon glyphicon-home"></span> 首页</a> </li>
+	                <li><a href="addinformation.html"><span class="glyphicon glyphicon-th-list"></span> 数据录入</a> </li>
+	                <li><a href="accquery.html"><span class="glyphicon glyphicon-fire"></span>事故查询与分析</a> </li>       
+		            <li><a href="networkAnalysis.html"><span class="glyphicon glyphicon-question-sign"></span> 事故路网分析</a> </li>
+	            </ul>
+	        </div>
+	        
+	        
+	    </div>
+	    	<div class="login">
+	    		登录&nbsp<span>|</span>&nbsp注册
+			</div>
+	
+	</nav>
+	
+<!--轮播图片-->
+<!--<div id="myCarousel" class="carousel slide">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active" style="background:#223240;">
+            <img src="img/slide1.png" alt="第一张">
+        </div>
+        <div class="item" style="background:#F5E4DC;">
+            <img src="img/slide2.png" alt="第二张">
+        </div>
+        <div class="item" style="background:#DE2A2D;">
+            <img src="img/slide3.png" alt="第三张">
+        </div>
+
+    </div>
+  &lt;!&ndash;  <a href="#myCarousel" data-slide="prev" class="carousel-control left">&lsaquo;</a>
+    <a href="#myCarousel" data-slide="next" class="carousel-control right">&rsaquo;</a>&ndash;&gt;
+    <a href="#myCarousel" data-slide="prev" class="carousel-control left" >
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a href="#myCarousel" data-slide="next" class="carousel-control right">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+</div>-->
+
+<!--旧地图显示内容-->
+<!-- <div class="claro">
+    <div id="mapDiv" class="mapDiv">
+        <div id="HomeButton"></div>
+        <div id="LocateButton"></div>
+        <div id="coordinate"></div>
+    </div> 
+</div> -->
+<!--新的高德地图显示内容  -->
+<div class="mapDiv">
+	<div id="container">
+	 <div id="tip"></div>
+		<div class="close icon" onclick="javascript:handleButtonCloseClick()"></div>
+		<div id="overview"></div>
+		<div class="col-sm-2 search">
+            <div class='input-group' >
+                <input type='text' class="form-control" name="keywords" id="keywords" placeholder="关键词搜索" required/>
+                <span class="input-group-addon">
+                    <span id="search" class="glyphicon glyphicon-search"></span>
+                </span>
+            </div>
+        </div>
+        <!--<div id="myPageTop">-->
+		<div class="lnglatquery">
+			 <div class="form-group">
+				<label class="col-sm-1 control-label">经度：</label>
+				<div class="col-sm-4">
+					<input class="form-control" id="lng" autocomplete="on"/>
+				</div>
+				<label class="col-sm-1 control-label">纬度：</label>
+				<div class="col-sm-4">
+					<input class="form-control" id="lat" autocomplete="on"/>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn btn-info" id="reverseBtn" onclick="gpsToGcj02();">转换</button>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-primary" id="traffic">显示/隐藏实时路况</button>
+		<button class="btn btn-primary active" id="googleLayer" >叠加/移除谷歌地图</button>
+		<button class="btn btn-primary " id="markerClusterer" >点聚合</button>
+		<div class="leftbottom" id="lnglat"></div>
+ </div>
+</div>
+ 
+		
+
+<!-- <button id="btn" class="btn btn-default" onclick="getInfoBasicData();">点我哦</button> -->
+<!-- <button id="line" class="btn btn-default" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.LINE);map.hideZoomSlider();}">Line</button> -->
+<!--底部-->
+<div class="footer">
+    <div class="link">
+        <a href="#">网站声明</a>&nbsp;|&nbsp;
+        <a href="#">网站注意事项</a>&nbsp;|&nbsp;
+        <a href="#">联系我们：1647824858@qq.com</a>&nbsp;|&nbsp;
+        <p>Copyright 2016，All Rights Reserved.  乌鲁木齐交通事故 版权所有 复制必究</p>
+    </div>
+</div>
+	
+	<!--common-->
+    <script src="js/common.js"></script>
+    
+    <!--gis-->
+    <!-- <script src="js/gis.js"></script> -->
+    
+    <!--index.js-->
+    <!-- <script src="js/index/index.js"></script> -->
+    <!--高德  -->
+    <script type="text/javascript" src="js/gaode/gaode.js"></script>
+	
+<!--首页标题设置-->
+<script>
+    /*$(window).load(function(){
+        $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+    });*/
+    $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+    $(window).resize(function(){
+        $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+    });
+
+</script>
+
+<!--btn点击事件-->
+<!--<script>
+    $("#btn").on("click",function(){
+		$.ajax({
+			"type":"post",
+			url:"http://localhost:8080/TrafficAccident/getInfoBasic",
+			dataType:"json",
+			success:function(xhr){
+			alert(xhr[0].AccLon);
+			},
+			error:function(){
+			alert("出错");
+			}
+		});
+    });
+</script>
+
+
+
+--><script type="text/javascript">
+    $(function () {
+
+        //轮播自动播放
+        $('#myCarousel').carousel({
+            //自动4秒播放
+            interval : 4000,
+        });
+    });
+</script>
+</body>
+</html>

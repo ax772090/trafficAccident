@@ -1,0 +1,245 @@
+<!DOCTYPE HTML  PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>乌鲁木齐交通事故信息网</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!--nprogress-->
+    <link rel="stylesheet" href="css/nprogress.css">
+    <script src="js/nprogress.js"></script>
+    
+    
+    
+    <!--部署在Tomcat上-->
+   <link rel="stylesheet" type="text/css" href="http://localhost:8080/jsapi/3.16/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/jsapi/3.16/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost:8080/jsapi/3.16/init.js"></script>
+    
+    <!--这里先用在线的,arcgis在线API-->
+    <!-- <link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.17/"></script> -->
+    
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    
+    
+    
+   <!-- 坐标转换（wgs84togcj02） -->
+   <!--  <script src="js/coordTransform.js"></script> -->
+    <script>
+    //dojo/domReady！这个模块的作用就是让回调函数在页面DOM结构加载完成后再执行，不能少感叹号哦！！！！
+   		 var map,toolbar,symbol;
+   		 //var graphicsLayerTest =new esri.layers.GraphicsLayer();
+    	require(["esri/map", "esri/toolbars/draw","esri/Color","esri/dijit/HomeButton","esri/dijit/OverviewMap","esri/dijit/Scalebar", "esri/dijit/LocateButton","esri/layers/ArcGISTiledMapServiceLayer",
+	            "dojo/domReady!"], function (Map,Draw,Color,HomeButton,OverviewMap,Scalebar,LocateButton, ArcGISTiledMapServiceLayer) {
+	             map = new Map("mapDiv", {
+	                logo:false,
+	                center: [87.609,43.803],
+	                zoom:15
+	           });
+	           
+	          map.on("load", createToolbar);
+	            
+	          /*  function activateTool() {
+		          
+		          toolbar.activate(Draw.LINE);
+		          map.hideZoomSlider();
+		        } */
+	            var baseServiceUrl = "http://www.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer";
+
+	            //var baseServiceUrl = " http://www.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineStreetColor/MapServer";
+	            var baseLayer = new ArcGISTiledMapServiceLayer(baseServiceUrl);
+	            map.addLayer(baseLayer);
+
+	            /*Home键的显示*/
+	            var home=new HomeButton({
+	                map:map
+	            },"HomeButton");
+	            home.startup();
+	            /*鹰眼显示*/
+	            var overviewMapDijit = new OverviewMap({
+	                map: map,
+	                visible: false
+
+	            });
+	            overviewMapDijit.startup();
+	            /*比例尺*/
+	            var scalebar = new Scalebar({
+	                map: map,
+	                // "dual" displays both miles and kilometers
+	                // "english" is the default, which displays miles
+	                // use "metric" for kilometers
+	                scalebarUnit: "dual"
+	            });
+	            /*定位功能*/
+	            geoLocate = new LocateButton({
+	                map: map,
+	                highlightLocation:true
+	            }, "LocateButton");
+	            geoLocate.startup();
+	            /* 显示鼠标位置的经纬度坐标 */
+	            dojo.connect(map,"onMouseMove",showCoordinates);
+	           // dojo.connect(map, "onLoad", createToolbar); // 绑定加载事件
+	           
+           	function showCoordinates(evt){
+	       		var mp= esri.geometry.webMercatorToGeographic(evt.mapPoint);
+	       		dojo.byId("coordinate").innerHTML ="经度："+mp.x.toFixed(7)+"</br>"+"纬度："+mp.y.toFixed(7);
+	       	}
+	       	function createToolbar(themap) {  
+		        toolbar = new Draw(map);  // esri.toolbars.Draw(map, options)  
+		        toolbar.on("draw-end", addToMap);   // 绘制完成触发  
+		    }  
+		    function addToMap(evt){
+		    	toolbar.deactivate();
+		    	map.showZoomSlider();
+		    	symbol = new SimpleLineSymbol();
+		    	/* var symbol = new esri.symbol.SimpleLineSymbol(  
+                    esri.symbol.SimpleLineSymbol.STYLE_SOLID,   
+                    new Color([0, 0, 255, 0.5]),  
+                    4 
+                );  */
+	            var graphic = new esri.Graphic(evt.geometry, symbol);  
+	       		map.graphics.add(graphic);  // 将绘图加入到图层中 
+		    }
+	          //map.addLayer(graphicsLayerTest);    
+	        });
+	        
+		   
+    </script>
+     
+</head>
+<body>
+<!--导航显示-->
+<nav class="nav navbar-default navbar-fixed-top">
+    <div class="container logobg">
+        <div class="navbar-header logo" >
+            <a href="index.html" >
+                <!--<img src="img/logo.png">-->
+                <span id="title" >乌鲁木齐交通事故网</span>
+            </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse"  id="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="index.html" ><span class="glyphicon glyphicon-home"></span> 首页</a> </li>
+                <li><a href="addinformation.html"><span class="glyphicon glyphicon-th-list"></span> 数据录入</a> </li>
+                <li><a href="accquery.html"><span class="glyphicon glyphicon-fire"></span>事故查询与分析</a> </li>       
+	            <li><a href="networkAnalysis.html"><span class="glyphicon glyphicon-question-sign"></span> 事故路网分析</a> </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--轮播图片-->
+<!--<div id="myCarousel" class="carousel slide">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active" style="background:#223240;">
+            <img src="img/slide1.png" alt="第一张">
+        </div>
+        <div class="item" style="background:#F5E4DC;">
+            <img src="img/slide2.png" alt="第二张">
+        </div>
+        <div class="item" style="background:#DE2A2D;">
+            <img src="img/slide3.png" alt="第三张">
+        </div>
+
+    </div>
+  &lt;!&ndash;  <a href="#myCarousel" data-slide="prev" class="carousel-control left">&lsaquo;</a>
+    <a href="#myCarousel" data-slide="next" class="carousel-control right">&rsaquo;</a>&ndash;&gt;
+    <a href="#myCarousel" data-slide="prev" class="carousel-control left" >
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a href="#myCarousel" data-slide="next" class="carousel-control right">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+</div>-->
+
+<!--地图显示内容-->
+<div class="claro">
+    <div id="mapDiv" class="mapDiv">
+        <div id="HomeButton"></div>
+        <div id="LocateButton"></div>
+        <div id="coordinate"></div>
+    </div> 
+</div>
+<!-- <button id="btn" class="btn btn-default" onclick="getInfoBasicData();">点我哦</button> -->
+<!-- <button id="line" class="btn btn-default" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.LINE);map.hideZoomSlider();}">Line</button> -->
+<!--底部-->
+<div class="footer">
+    <div class="link">
+        <a href="#">网站声明</a>&nbsp;|&nbsp;
+        <a href="#">写点东西我喜欢你</a>&nbsp;|&nbsp;
+        <a href="#">联系我们：1647824858@qq.com</a>&nbsp;|&nbsp;
+        <p>Copyright 2016，All Rights Reserved.  乌鲁木齐交通事故 版权所有 复制必究</p>
+    </div>
+</div>
+	
+	<!--common-->
+    <script src="js/common.js"></script>
+    
+    <!--gis-->
+    <!-- <script src="js/gis.js"></script> -->
+    
+    <!--index.js-->
+    <script src="js/index/index.js"></script>
+    
+	
+<!--首页标题设置-->
+<script>
+    /*$(window).load(function(){
+        $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+    });*/
+    $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+    $(window).resize(function(){
+        $('#title').css('margin-top',($('.logo').height()-$('#title').height())/2+'px');
+
+    });
+
+</script>
+
+<!--btn点击事件-->
+<!--<script>
+    $("#btn").on("click",function(){
+		$.ajax({
+			"type":"post",
+			url:"http://localhost:8080/TrafficAccident/getInfoBasic",
+			dataType:"json",
+			success:function(xhr){
+			alert(xhr[0].AccLon);
+			},
+			error:function(){
+			alert("出错");
+			}
+		});
+    });
+</script>
+
+
+
+--><script type="text/javascript">
+    $(function () {
+
+        //轮播自动播放
+        $('#myCarousel').carousel({
+            //自动4秒播放
+            interval : 4000,
+        });
+    });
+</script>
+</body>
+</html>
